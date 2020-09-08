@@ -2,8 +2,10 @@
 
 namespace ripasso1
 {
+
     class Program
     {
+        
         static int nPrimi = 0;
 
         static void Main(string[] args)
@@ -26,20 +28,91 @@ namespace ripasso1
                 Console.WriteLine("Non hai inserito un numero!");
             }
 
-            //int[] vettore = new int[N];
-            int[] vettore = new int[] {1, 3, 5, 6, 11, 8, 9, 997, 24, 56, 97, 523};
+            //ci sono numeri consecutivi
+            //int[] vettore = new int[] { 1, 3, 5, 6, 11, 8, 9, 997, 24, 56, 97, 523 };
             
-            for(int i = 0; i < vettore.Length; i++)
+            //non ci sono numeri consecutivi
+            int[] vettore = new int[] { 3, 7, 13, 23};
+
+            for (int i = 0; i < vettore.Length; i++)
                 stampaPrimo(vettore[i], true);
 
+            if (nPrimi >= 2)
+                Console.WriteLine("Ci sono almeno due numeri primi!");
+
             Console.WriteLine("------------------------");
-            
+
+            //numeri da 1 a 10000
             for (int i = 0; i < MAX; i++)
                 stampaPrimo(i, false);
 
             Console.WriteLine($"da 0 a {MAX} ho trovato {nPrimi} numeri primi");
 
+            Console.WriteLine("------------------------");
+            
+            int cont = 0;
+
+            //conto quanti sono i numeri primi nella serie
+            for (int i = 0; i < vettore.Length; i++)
+                if (isPrime(vettore[i]))
+                    cont++;
+
+            //istanzio un vettore di lunghezza 'cont' e lo sorto
+            int[] prime = new int[cont];
+            cont = 0;
+            
+            for (int i = 0; i < vettore.Length; i++)
+            {
+                if (isPrime(vettore[i]))
+                {
+                    prime[cont] = vettore[i];
+                    cont++;
+                }
+            }
+
+            Array.Sort(prime);
+
+            bool flag = false;
+
+            for (int i = 0; i < prime.Length - 1; i++)
+            {
+                int val1 = prime[i];
+                int val2 = prime[i + 1];
+
+                flag = isConsecutivePrime(prime[i] + 1, prime[i + 1]);
+                
+                if (flag)
+                {
+                    Console.WriteLine($"i numeri {val1} e {val2} sono consecutivi");
+                    break;
+                }
+            }
+
+            if (!flag)
+                Console.WriteLine("non ci sono dei numeri primi consecutivi");
+
             Console.ForegroundColor = colore;
+        }
+
+        static bool isConsecutivePrime(int val1, int val2)
+        {
+            //cerco un valore primo tra val1 e val2
+            while (val1 < val2)
+            {
+                if (isPrime(val1))
+                {
+                    Console.WriteLine($"i numeri {val1} e {val2} non sono consecutivi");
+                    return false;
+                }
+                else
+                {
+                    Console.Write(".");
+                }
+
+                val1++;
+            };
+
+            return true;
         }
 
         static void stampaPrimo(int val, bool mode)
