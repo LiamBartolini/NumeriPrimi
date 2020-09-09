@@ -1,8 +1,8 @@
 ﻿using System;
+using System.IO;
 
 namespace ripasso1
 {
-
     class Program
     {
         static bool flag = false;
@@ -11,6 +11,36 @@ namespace ripasso1
         static void Main(string[] args)
         {
             ConsoleColor colore = Console.ForegroundColor;
+            int[] vettore;
+
+            if(File.Exists("dati.txt"))
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Apro il file dati.txt...");
+
+                StreamReader fin = new StreamReader("dati.txt");
+
+                string riga = fin.ReadLine();
+
+                string[] numeri = riga.Split(',');
+                vettore = new int[numeri.Length];
+
+                for (int i = 0; i < numeri.Length; i++)
+                    vettore[i] = Convert.ToInt32(numeri[i]);
+
+                fin.Close();
+
+                Console.WriteLine($"Ho letto {numeri.Length} valori");
+                
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Non ho trovato il file dati.txt, assegno il vettore staticamente.");
+                vettore = new int[] { 1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 21, 307, 311, 313, 317 };
+                Console.ResetColor();
+            }
 
             Console.WriteLine("Inserisci la lunghezza del vettore:");   //output
             string strN = Console.ReadLine();   //input
@@ -29,10 +59,12 @@ namespace ripasso1
             }
 
             //ci sono numeri consecutivi
-            //int[] vettore = new int[] { 1, 3, 5, 6, 11, 8, 9, 997, 24, 56, 97, 523 };
-            
+            //int[] vettore = new int[] { 1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 21, 307, 311, 313, 317};
+
+            //int[] vettore = new int[] {313, 317};
+
             //non ci sono numeri consecutivi
-            int[] vettore = new int[] { 3, 7, 13, 23};
+            //int[] vettore = new int[] { 3, 7, 13, 23};
 
             for (int i = 0; i < vettore.Length; i++)
                 stampaPrimo(vettore[i], true);
@@ -96,21 +128,11 @@ namespace ripasso1
 
         static bool isConsecutivePrime(int val1, int val2)
         {
-            //salvo il valore dentro una variabile
-            int primo = val1 - 1;
-
             //cerco un valore primo tra val1 e val2
             while (val1 < val2)
             {
                 if (isPrime(val1))
-                {
-                    Console.WriteLine($"i numeri {primo} e {val2} non sono consecutivi");
                     return false;
-                }
-                else
-                {
-                    Console.Write(".");
-                }
 
                 val1++;
             };
