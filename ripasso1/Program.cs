@@ -5,7 +5,7 @@ namespace ripasso1
 
     class Program
     {
-        
+        static bool flag = false;
         static int nPrimi = 0;
 
         static void Main(string[] args)
@@ -72,7 +72,7 @@ namespace ripasso1
 
             Array.Sort(prime);
 
-            bool flag = false;
+            //+bool flag = false;
 
             for (int i = 0; i < prime.Length - 1; i++)
             {
@@ -96,12 +96,15 @@ namespace ripasso1
 
         static bool isConsecutivePrime(int val1, int val2)
         {
+            //salvo il valore dentro una variabile
+            int primo = val1 - 1;
+
             //cerco un valore primo tra val1 e val2
             while (val1 < val2)
             {
                 if (isPrime(val1))
                 {
-                    Console.WriteLine($"i numeri {val1} e {val2} non sono consecutivi");
+                    Console.WriteLine($"i numeri {primo} e {val2} non sono consecutivi");
                     return false;
                 }
                 else
